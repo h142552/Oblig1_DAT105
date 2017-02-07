@@ -5,8 +5,10 @@ CONFIG -= qt
 
 SOURCES += main.cpp \
     person.cpp \
-    util_heltall.cpp
+    util_heltall.cpp \
+    heltall_bilde.cpp
 
 HEADERS += \
     person.h \
-    util_heltall.h
+    util_heltall.h \
+    heltall_bilde.h
