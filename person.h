@@ -6,7 +6,7 @@ namespace oppgave5 {
 class Person
 {
 private:
-    Person tilknyttet;
+    //oppgave5::Person tilknyttet; // how?
     std::string navn;
     unsigned int pnr;
 public:

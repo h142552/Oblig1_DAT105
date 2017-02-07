@@ -4,7 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    person.cpp
+    person.cpp \
+    util_heltall.cpp
 
 HEADERS += \
-    person.h
+    person.h \
+    util_heltall.h
