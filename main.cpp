@@ -1,5 +1,6 @@
 #include <iostream>
 #include "util_heltall.h"
+#include "heltall_bilde.h"
 
 // Oppgave 1:
 namespace oppgave1 {
@@ -32,13 +33,10 @@ unsigned long long fakultet(unsigned long long int n) {
 }
 }
 
-int main()
-{
-    // Oppgave 1 eksempel:
-    std::cout << "22! = " << oppgave1::fakultet(22) << std::endl;
-
-    // Oppgave 2:
+// Tester metodene i util_heltall
+void test_metoder() {
     util_heltall heltall {util_heltall()};
+
     // 2a)
     try {
         heltall.set_heltall(11);
@@ -74,6 +72,43 @@ int main()
     std::cout << heltall.mirror() << std::endl; // 10000b -> 1b, 16d -> 1d
     heltall.set_heltall(113);
     std::cout << heltall.mirror() << std::endl; // 1110001b -> 1000111b, 113d -> 71d
+}
+
+int main()
+{
+    // Oppgave 1 eksempel:
+    //std::cout << "22! = " << oppgave1::fakultet(22) << std::endl;
+
+    // Oppgave 2, Del 1 og 2:
+    //test_metoder();
+
+    // Oppgave 2, Del 3:
+    heltall_bilde bmp { heltall_bilde() };
+    bmp.lag_bilde('/', 64);
+    bmp.lag_bilde('\\', 0);
+    bmp.lag_bilde('|', 0);
+    bmp.lag_bilde('|', 63);
+    bmp.lag_bilde('-', 0);
+    bmp.lag_bilde('-', 63);
+    bmp.skriv_ut();
+
+    // Oppgave 2, Del 4 a):
+    heltall_bilde b1 { heltall_bilde() };
+    std::cout << (bmp == b1) << std::endl;
+    heltall_bilde b2 { heltall_bilde() };
+    std::cout << (b1 == b2) << std::endl;
+
+    // Oppgave 2, Del 4 b):
+    b1.lag_bilde('/', 64);
+    b1.skriv_ut();
+    b2.lag_bilde('\\', 0);
+    b2.skriv_ut();
+    b1 = b1 + b2;
+    b1.skriv_ut();
+
+    // Oppgave 2, Del 4 c):
+    b1 = ~b1;
+    b1.skriv_ut();
 
     return 0;
 }
