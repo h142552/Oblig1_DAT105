@@ -110,5 +110,8 @@ int main()
     b1 = ~b1;
     b1.skriv_ut();
 
+    // Oppgave 3:
+    b2.lagre_bilde("test.txt", heltall_bilde::fil_format::Bin);
+
     return 0;
 }

@@ -98,3 +98,59 @@ void heltall_bilde::lag_bilde(char B, int k = 0) {
     else
         std::cout << "Feil parameter." << std::endl;
 }
+
+void heltall_bilde::lagre_bilde(std::string filnavn, fil_format ff) {
+    std::ofstream utfil;
+    utfil.open(filnavn);
+
+    if(ff == fil_format::Tekst) {
+        for(unsigned int i = 0; i < this->heltall_vektor.size(); i++) {
+            for(int j = 0; j < this->size; j++)
+                ((this->heltall_vektor[i] & (unsigned long long)1<<j) > 0)
+                    ? (utfil << 'W') : (utfil << '_');
+
+            utfil << std::endl;
+        }
+    }
+    else if(ff == fil_format::Tall) {
+        //for(int i = 0; i < this->heltall_vektor.size(); i++)
+        for(unsigned long long heltall : this->heltall_vektor)
+            utfil << heltall << std::endl;
+    }
+    else if(ff == fil_format::Bin) {
+        for(unsigned int i = 0; i < this->heltall_vektor.size(); i++) {
+            for(int j = 0; j < heltall_bilde::size; j++) {
+                utfil << ((this->heltall_vektor[i] & ((unsigned long long)1<<j)) > 0) ? 1 : 0;
+            }
+            utfil << std::endl; // trengs endl?
+        }
+    }
+    else std::cout << "Feil filformat" << std::endl;
+
+    utfil.close();
+}
+
+void heltall_bilde::les_bilde(std::string filnavn, fil_format ff) {
+    this->init(); // trengs kanskje
+    std::ifstream innfil;
+    innfil.open(filnavn);
+
+    switch (ff) {
+    case fil_format::Tekst:
+        char c;
+        int k = 0, i = 0;
+        while(innfil.get(c)) {
+            if(c == 'W')
+               this->heltall_vektor[i] = this->heltall_vektor[i] | (1<<k);
+
+            k++;
+            if(k == heltall_bilde::size) { k = 0; i++; }
+        }
+        break;
+    default:
+        std::cout << "Feil format" << std::endl;
+        break;
+    }
+
+    innfil.close();
+}
