@@ -6,9 +6,11 @@ CONFIG -= qt
 SOURCES += main.cpp \
     person.cpp \
     util_heltall.cpp \
-    heltall_bilde.cpp
+    heltall_bilde.cpp \
+    matrise_skriver.cpp
 
 HEADERS += \
     person.h \
     util_heltall.h \
-    heltall_bilde.h
+    heltall_bilde.h \
+    matrise_skriver.h
