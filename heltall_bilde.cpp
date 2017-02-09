@@ -9,10 +9,10 @@ heltall_bilde::heltall_bilde() {
 
 void heltall_bilde::init() {
     if(this->heltall_vektor.size() == 0)
-        for(unsigned int i = 0; i < this->size; i++)
+        for(int i = 0; i < heltall_bilde::size; i++)
             this->heltall_vektor.push_back(0);
     else
-        for(unsigned int i = 0; i < this->size; i++)
+        for(int i = 0; i < heltall_bilde::size; i++)
             this->heltall_vektor[i] = 0;
 }
 
@@ -43,7 +43,7 @@ heltall_bilde& heltall_bilde::operator+(const heltall_bilde& rhs) {
     if(this->heltall_vektor.size() != rhs.heltall_vektor.size())
         throw heltall_bilde::size_mismatch_exception();
 
-    for(int i = 0; i < this->heltall_vektor.size(); i++) {
+    for(unsigned int i = 0; i < this->heltall_vektor.size(); i++) {
         this->heltall_vektor[i] = this->heltall_vektor[i] | rhs.heltall_vektor[i];
     }
 
@@ -58,7 +58,7 @@ heltall_bilde& heltall_bilde::operator~() {
     return *this;
 }
 
-void heltall_bilde::lag_bilde(char B, int k = 0) {
+void heltall_bilde::lag_bilde(char B, int k = 0) { // bruke switch?
     if(B == '0') {
         this->init();
     }
@@ -103,54 +103,75 @@ void heltall_bilde::lagre_bilde(std::string filnavn, fil_format ff) {
     std::ofstream utfil;
     utfil.open(filnavn);
 
-    if(ff == fil_format::Tekst) {
+    switch (ff) {
+    case fil_format::Tekst: {
         for(unsigned int i = 0; i < this->heltall_vektor.size(); i++) {
-            for(int j = 0; j < this->size; j++)
+            for(int j = 0; j < heltall_bilde::size; j++)
                 ((this->heltall_vektor[i] & (unsigned long long)1<<j) > 0)
                     ? (utfil << 'W') : (utfil << '_');
 
             utfil << std::endl;
         }
+
+        break;
     }
-    else if(ff == fil_format::Tall) {
-        //for(int i = 0; i < this->heltall_vektor.size(); i++)
+    case fil_format::Tall: {
         for(unsigned long long heltall : this->heltall_vektor)
             utfil << heltall << std::endl;
+
+        break;
     }
-    else if(ff == fil_format::Bin) {
-        for(unsigned int i = 0; i < this->heltall_vektor.size(); i++) {
-            for(int j = 0; j < heltall_bilde::size; j++) {
+    case fil_format::Bin: {
+        for(unsigned int i = 0; i < this->heltall_vektor.size(); i++)
+            for(int j = 0; j < heltall_bilde::size; j++)
                 utfil << ((this->heltall_vektor[i] & ((unsigned long long)1<<j)) > 0) ? 1 : 0;
-            }
-            utfil << std::endl; // trengs endl?
-        }
+
+        break;
     }
-    else std::cout << "Feil filformat" << std::endl;
+    default: {
+        std::cout << "Feil filformat" << std::endl;
+        break;
+    }
+    } // switch
 
     utfil.close();
 }
 
 void heltall_bilde::les_bilde(std::string filnavn, fil_format ff) {
-    this->init(); // trengs kanskje
+    this->init(); // Lettest å nullstille bildet før lesing
     std::ifstream innfil;
     innfil.open(filnavn);
 
     switch (ff) {
-    case fil_format::Tekst:
+    case fil_format::Tekst: {
         char c;
-        int k = 0, i = 0;
-        while(innfil.get(c)) {
-            if(c == 'W')
-               this->heltall_vektor[i] = this->heltall_vektor[i] | (1<<k);
-
-            k++;
-            if(k == heltall_bilde::size) { k = 0; i++; }
+        for(unsigned int i = 0; i < this->heltall_vektor.size(); i++) {
+            for(int j = 0; j < heltall_bilde::size; j++) {
+                innfil >> c; // må bruke >> for å hoppe over whitespace
+                if(c == 'W') // if plass j = W -> vect[i] plass j = 1
+                    this->heltall_vektor[i] = this->heltall_vektor[i] | (unsigned long long)1<<j;
+            }
         }
+    }
+    case fil_format::Tall: {
+        for(unsigned int i = 0; i < this->heltall_vektor.size(); i++)
+            innfil >> this->heltall_vektor[i];
+
         break;
-    default:
+    }
+    case fil_format::Bin: {
+        for(unsigned int i = 0; i < this->heltall_vektor.size(); i++)
+            for(int j = 0; j < heltall_bilde::size; j++)
+                if(innfil.get() == '1') // if plass j = 1 -> vect[i] plass j = 1
+                    this->heltall_vektor[i] = this->heltall_vektor[i] | (unsigned long long)1<<j;
+
+        break;
+    }
+    default: { // umulig å komme til denne casen?
         std::cout << "Feil format" << std::endl;
         break;
     }
+    } // switch
 
     innfil.close();
 }

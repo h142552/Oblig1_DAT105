@@ -100,9 +100,7 @@ int main()
 
     // Oppgave 2, Del 4 b):
     b1.lag_bilde('/', 64);
-    b1.skriv_ut();
     b2.lag_bilde('\\', 0);
-    b2.skriv_ut();
     b1 = b1 + b2;
     b1.skriv_ut();
 
@@ -111,7 +109,9 @@ int main()
     b1.skriv_ut();
 
     // Oppgave 3:
-    b2.lagre_bilde("test.txt", heltall_bilde::fil_format::Bin);
+    b1.lagre_bilde("test.txt", heltall_bilde::fil_format::Tekst);
+    b2.les_bilde("test.txt", heltall_bilde::fil_format::Tekst);
+    b2.skriv_ut();
 
     return 0;
 }
