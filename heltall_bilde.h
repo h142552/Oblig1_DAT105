@@ -22,6 +22,7 @@ public:
     heltall_bilde& operator~();
     void lagre_bilde(std::string, fil_format);
     void les_bilde(std::string, fil_format);
+    void lag_sirkler(int, int);
 
 };
 

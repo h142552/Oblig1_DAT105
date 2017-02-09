@@ -175,3 +175,44 @@ void heltall_bilde::les_bilde(std::string filnavn, fil_format ff) {
 
     innfil.close();
 }
+
+// Bruker Midpoint circle algorithm
+// Kilde: https://en.wikipedia.org/wiki/Midpoint_circle_algorithm
+void heltall_bilde::lag_sirkler(int origo, int radius) {
+    // Må sjekke om sirkelen holder seg innen grensene:
+    if(origo + radius > (heltall_bilde::size - 1) || origo - radius < 0)
+        throw heltall_bilde::size_mismatch_exception();
+
+
+    // Kunne laget en egen versjon av metoden som tar inn x0 og y0
+    int x0 = origo, y0 = origo; // Antar at origo = 32 -> pos (32, 32)
+    int x = radius, y = 0, err = 0;
+
+    while(x >= y) {
+        // (x0 + x, y0 + y)
+        // (x0 + y, y0 + x)
+        // (x0 - y, y0 + x)
+        // (x0 - x, y0 + y)
+        // (x0 - x, y0 - y)
+        // (x0 - y, y0 - x)
+        // (x0 + y, y0 - x)
+        // (x0 + x, y0 - y)
+        this->heltall_vektor[(y0 + y)] = this->heltall_vektor[(y0 + y)] | (unsigned long long)1<<(x0 + x);
+        this->heltall_vektor[(y0 + x)] = this->heltall_vektor[(y0 + x)] | (unsigned long long)1<<(x0 + y);
+        this->heltall_vektor[(y0 + x)] = this->heltall_vektor[(y0 + x)] | (unsigned long long)1<<(x0 - y);
+        this->heltall_vektor[(y0 + y)] = this->heltall_vektor[(y0 + y)] | (unsigned long long)1<<(x0 - x);
+        this->heltall_vektor[(y0 - y)] = this->heltall_vektor[(y0 - y)] | (unsigned long long)1<<(x0 - x);
+        this->heltall_vektor[(y0 - x)] = this->heltall_vektor[(y0 - x)] | (unsigned long long)1<<(x0 - y);
+        this->heltall_vektor[(y0 - x)] = this->heltall_vektor[(y0 - x)] | (unsigned long long)1<<(x0 + y);
+        this->heltall_vektor[(y0 - y)] = this->heltall_vektor[(y0 - y)] | (unsigned long long)1<<(x0 + x);
+
+        if(err <= 0) {
+            y++;
+            err += 2*y + 1;
+        }
+        if(err > 0) {
+            x--;
+            err -= 2*x + 1;
+        }
+    }
+}
