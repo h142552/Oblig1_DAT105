@@ -66,7 +66,7 @@ bool util_heltall::symmetric() { // 101101 -> true, 110010 -> false
     return (this->heltall == this->mirror());
 }
 
-// g), Finner antall bit satt til 1 mindre enn k
+// g), Finner antall bit satt til 1 mindre enn (eller lik) k
 int util_heltall::bit1_less_than(unsigned int k) { // k = 3, 0100 1110 0101 -> 2
     int count = 0;
     while(k+1 > 0) {

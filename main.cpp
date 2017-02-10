@@ -91,13 +91,12 @@ void test_metoder() {
 int main()
 {
     // Oppgave 1 eksempel:
-    //std::cout << "22! = " << oppgave1::fakultet(22) << std::endl;
+    std::cout << "22! = " << oppgave1::fakultet(22) << std::endl;
 
     // Oppgave 2, Del 1 og 2:
     test_metoder();
 
     // Oppgave 2, Del 3:
-    /*
     heltall_bilde bmp { heltall_bilde() };
     bmp.lag_bilde('/', 64);
     bmp.lag_bilde('\\', 0);
@@ -134,7 +133,6 @@ int main()
     b3.lag_sirkler(32, 23);
     b3.lag_sirkler(32, 31);
     b3.skriv_ut();
-    */
 
     return 0;
 }
