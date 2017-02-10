@@ -44,7 +44,7 @@ heltall_bilde& heltall_bilde::operator+(const heltall_bilde& rhs) {
         throw heltall_bilde::size_mismatch_exception();
 
     for(unsigned int i = 0; i < this->heltall_vektor.size(); i++) {
-        this->heltall_vektor[i] = this->heltall_vektor[i] | rhs.heltall_vektor[i];
+        this->heltall_vektor[i] |= rhs.heltall_vektor[i];
     }
 
     return *this;
@@ -68,8 +68,8 @@ void heltall_bilde::lag_bilde(char B, int k = 0) { // bruke switch?
     else if(B == '\\') {
         int i = 0;
         while(k < this->size) {
-            this->heltall_vektor[i] = this->heltall_vektor[i]
-                    | (unsigned long long)1<<k; // setter k-te bit i element nr. i til 1
+            // setter k-te bit i element nr. i til 1
+            this->heltall_vektor[i] |= (unsigned long long)1<<k;
 
             ++i;
             ++k;
@@ -78,8 +78,7 @@ void heltall_bilde::lag_bilde(char B, int k = 0) { // bruke switch?
     else if(B == '/') {
         int i = 0;
         while(k > 0) {
-            this->heltall_vektor[i] = this->heltall_vektor[i]
-                    | (unsigned long long)1<<(k-1);
+            this->heltall_vektor[i] |= (unsigned long long)1<<(k-1);
 
             ++i;
             --k;
@@ -87,13 +86,11 @@ void heltall_bilde::lag_bilde(char B, int k = 0) { // bruke switch?
     }
     else if(B == '|') {
         for(unsigned int i = 0; i < this->heltall_vektor.size(); i++)
-            this->heltall_vektor[i] = this->heltall_vektor[i]
-                    | (unsigned long long)1<<k;
+            this->heltall_vektor[i] |= (unsigned long long)1<<k;
     }
     else if(B == '-') {
         for(unsigned int i = 0; i < this->heltall_vektor.size(); i++)
-            this->heltall_vektor[k] = this->heltall_vektor[k]
-                | (unsigned long long)1<<i;
+            this->heltall_vektor[k] |= (unsigned long long)1<<i;
     }
     else
         std::cout << "Feil parameter." << std::endl;
@@ -149,7 +146,7 @@ void heltall_bilde::les_bilde(std::string filnavn, fil_format ff) {
             for(int j = 0; j < heltall_bilde::size; j++) {
                 innfil >> c; // må bruke >> for å hoppe over whitespace
                 if(c == 'W') // if plass j = W -> vect[i] plass j = 1
-                    this->heltall_vektor[i] = this->heltall_vektor[i] | (unsigned long long)1<<j;
+                    this->heltall_vektor[i] |= (unsigned long long)1<<j;
             }
         }
     }
@@ -163,7 +160,7 @@ void heltall_bilde::les_bilde(std::string filnavn, fil_format ff) {
         for(unsigned int i = 0; i < this->heltall_vektor.size(); i++)
             for(int j = 0; j < heltall_bilde::size; j++)
                 if(innfil.get() == '1') // if plass j = 1 -> vect[i] plass j = 1
-                    this->heltall_vektor[i] = this->heltall_vektor[i] | (unsigned long long)1<<j;
+                    this->heltall_vektor[i] |= (unsigned long long)1<<j;
 
         break;
     }
@@ -197,14 +194,14 @@ void heltall_bilde::lag_sirkler(int origo, int radius) {
         // (x0 - y, y0 - x)
         // (x0 + y, y0 - x)
         // (x0 + x, y0 - y)
-        this->heltall_vektor[(y0 + y)] = this->heltall_vektor[(y0 + y)] | (unsigned long long)1<<(x0 + x);
-        this->heltall_vektor[(y0 + x)] = this->heltall_vektor[(y0 + x)] | (unsigned long long)1<<(x0 + y);
-        this->heltall_vektor[(y0 + x)] = this->heltall_vektor[(y0 + x)] | (unsigned long long)1<<(x0 - y);
-        this->heltall_vektor[(y0 + y)] = this->heltall_vektor[(y0 + y)] | (unsigned long long)1<<(x0 - x);
-        this->heltall_vektor[(y0 - y)] = this->heltall_vektor[(y0 - y)] | (unsigned long long)1<<(x0 - x);
-        this->heltall_vektor[(y0 - x)] = this->heltall_vektor[(y0 - x)] | (unsigned long long)1<<(x0 - y);
-        this->heltall_vektor[(y0 - x)] = this->heltall_vektor[(y0 - x)] | (unsigned long long)1<<(x0 + y);
-        this->heltall_vektor[(y0 - y)] = this->heltall_vektor[(y0 - y)] | (unsigned long long)1<<(x0 + x);
+        this->heltall_vektor[(y0 + y)] |= (unsigned long long)1<<(x0 + x);
+        this->heltall_vektor[(y0 + x)] |= (unsigned long long)1<<(x0 + y);
+        this->heltall_vektor[(y0 + x)] |= (unsigned long long)1<<(x0 - y);
+        this->heltall_vektor[(y0 + y)] |= (unsigned long long)1<<(x0 - x);
+        this->heltall_vektor[(y0 - y)] |= (unsigned long long)1<<(x0 - x);
+        this->heltall_vektor[(y0 - x)] |= (unsigned long long)1<<(x0 - y);
+        this->heltall_vektor[(y0 - x)] |= (unsigned long long)1<<(x0 + y);
+        this->heltall_vektor[(y0 - y)] |= (unsigned long long)1<<(x0 + x);
 
         if(err <= 0) {
             y++;

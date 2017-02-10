@@ -72,6 +72,20 @@ void test_metoder() {
     std::cout << heltall.mirror() << std::endl; // 10000b -> 1b, 16d -> 1d
     heltall.set_heltall(113);
     std::cout << heltall.mirror() << std::endl; // 1110001b -> 1000111b, 113d -> 71d
+
+    // 2f)
+    std::cout << heltall.get_heltall() << " symmetrisk? "
+              << heltall.symmetric() << std::endl;
+    heltall.set_heltall(3); // symmetrisk tall
+    std::cout << heltall.get_heltall() << " symmetrisk? "
+              << heltall.symmetric() << std::endl;
+
+    // 2g)
+    heltall.set_heltall(113);
+    std::cout << heltall.bit1_less_than(3) << std::endl;
+
+    // 2h)
+    std::cout << heltall.bit1_greater_than(3) << std::endl;
 }
 
 int main()
@@ -80,9 +94,10 @@ int main()
     //std::cout << "22! = " << oppgave1::fakultet(22) << std::endl;
 
     // Oppgave 2, Del 1 og 2:
-    //test_metoder();
+    test_metoder();
 
     // Oppgave 2, Del 3:
+    /*
     heltall_bilde bmp { heltall_bilde() };
     bmp.lag_bilde('/', 64);
     bmp.lag_bilde('\\', 0);
@@ -119,6 +134,7 @@ int main()
     b3.lag_sirkler(32, 23);
     b3.lag_sirkler(32, 31);
     b3.skriv_ut();
+    */
 
     return 0;
 }

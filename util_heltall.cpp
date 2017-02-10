@@ -45,7 +45,7 @@ int util_heltall::bit1_highest() {
     return highest;
 }
 
-// e), Speilvender bitmønsteret til n
+// e), Speilvender bitmønsteret til heltall
 int util_heltall::mirror() {
     unsigned int mirrored = 0;
     unsigned int k = util_heltall::bit_count();
@@ -59,4 +59,34 @@ int util_heltall::mirror() {
     }
 
     return mirrored;
+}
+
+// f), Sjekker om heltall er symmetrisk
+bool util_heltall::symmetric() { // 101101 -> true, 110010 -> false
+    return (this->heltall == this->mirror());
+}
+
+// g), Finner antall bit satt til 1 mindre enn k
+int util_heltall::bit1_less_than(unsigned int k) { // k = 3, 0100 1110 0101 -> 2
+    int count = 0;
+    while(k+1 > 0) {
+        if((this->heltall & ((unsigned long long)1<<k)) > 0)
+            count++;
+        k--;
+    }
+
+    return count;
+}
+
+// h), Finner antall bit satt til 1 større enn k
+int util_heltall::bit1_greater_than(unsigned int k) { // k = 3, 0100 1110 0101 -> 4
+    unsigned long long shift = 1;
+    int count = 0;
+    while(((unsigned long long)1<<k) <= this->heltall) {
+        if((this->heltall & ((unsigned long long)1<<k)) > 0)
+            count++;
+        k++;
+    }
+
+    return count;
 }

@@ -21,6 +21,9 @@ public:
     int bit1_count();			// c)
     int bit1_highest();			// d)
     int mirror();				// e)
+    bool symmetric(); 			// f)
+    int bit1_less_than(unsigned int k); 	// g)
+    int bit1_greater_than(unsigned int k); 	// h)
 };
 
 #endif // UTIL_HELTALL_H
