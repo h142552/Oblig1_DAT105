@@ -1,18 +1,17 @@
 #ifndef PERSON_H
 #define PERSON_H
 #include <string>
+#include <memory>
 
-namespace oppgave5 {
 class Person
 {
 private:
-    //oppgave5::Person tilknyttet; // how?
+    std::unique_ptr<Person> tilknyttet = nullptr;
     std::string navn;
     unsigned int pnr;
 public:
-    Person(); // trengs denne?
     Person(std::string _navn, unsigned int _pnr);
+    void tilknytt(Person&); // smart-peker her? eller ref
 };
-}
 
 #endif // PERSON_H

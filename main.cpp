@@ -123,9 +123,9 @@ int main()
     b1.skriv_ut();
 
     // Oppgave 3: // TODO: test slik som står i oppgaveteksten.
-    b1.lagre_bilde("test.txt", heltall_bilde::fil_format::Tekst);
-    b2.les_bilde("test.txt", heltall_bilde::fil_format::Tekst);
-    b2.skriv_ut();
+    b2.lagre_bilde("test.txt", heltall_bilde::fil_format::Tall);
+    b1.les_bilde("test.txt", heltall_bilde::fil_format::Tall);
+    b1.skriv_ut();
 
     // Oppgave 4, Del 1:
     heltall_bilde b3 { heltall_bilde() };
