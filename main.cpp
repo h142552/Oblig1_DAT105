@@ -1,6 +1,9 @@
 #include <iostream>
 #include "util_heltall.h"
 #include "heltall_bilde.h"
+#include "person.h"
+#include "ansatt.h"
+#include "ansattdata.h"
 
 // Oppgave 1:
 namespace oppgave1 {
@@ -133,6 +136,30 @@ int main()
     b3.lag_sirkler(32, 23);
     b3.lag_sirkler(32, 31);
     b3.skriv_ut();
+
+    // Oppgave 5
+    Person person("Ola Nordmann", 123);
+    Person p1("asdas", 123123);
+    Person p2("sad lk lkjkl ", 123123);
+    Person p3("ad lk llkui y", 123123);
+    Person p4("ljkhhljljhk", 123123);
+    person.tilknytt(p1);
+
+    Ansatt ansatt(person);
+//    std::cout << ansatt.get_navn() << std::endl;
+//    std::cout << ansatt.get_pnr() << std::endl;
+    ansatt.tilknytt_mentor(p4);
+    ansatt.legg_til_ansatt(p1);
+    ansatt.legg_til_ansatt(p2);
+    ansatt.legg_til_ansatt(p3);
+
+    AnsattData a1(ansatt);
+    a1.set_banknummer(123978);
+    a1.set_lonn(123978);
+    a1.set_super_mentor(true);
+    a1.set_paarorende(&p1);
+
+    std::cout << a1.to_string() << std::endl;
 
     return 0;
 }
