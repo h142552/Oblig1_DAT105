@@ -161,5 +161,13 @@ int main()
 
     std::cout << a1.to_string() << std::endl;
 
+    /* Testing av oppgave 5:
+     * 	vis at person::tilknytt virker
+     * 	vis at ansatt::mentor virker
+     * 	vis at ansatt kan ha ansatte
+     * 	test (og fiks) ansatte testing av 4-nivå osv
+     * 	vis at en ansattdata kan ha pårørende
+     */
+
     return 0;
 }
