@@ -138,35 +138,53 @@ int main()
     b3.skriv_ut();
 
     // Oppgave 5
-    Person person("Ola Nordmann", 123);
-    Person p1("asdas", 123123);
-    Person p2("sad lk lkjkl ", 123123);
-    Person p3("ad lk llkui y", 123123);
-    Person p4("ljkhhljljhk", 123123);
-    person.tilknytt(p1);
+    /// Viser tilknyttning
+    Person p1("Ola Nordmann", 170565);
+    Person p2("Kari Nordmann", 230971);
+    std::cout << p1.to_string() << std::endl;
+    p1.tilknytt(p2);
+    std::cout << p1.to_string() << std::endl;
 
-    Ansatt ansatt(person);
-//    std::cout << ansatt.get_navn() << std::endl;
-//    std::cout << ansatt.get_pnr() << std::endl;
-    ansatt.tilknytt_mentor(p4);
-    ansatt.legg_til_ansatt(p1);
-    ansatt.legg_til_ansatt(p2);
-    ansatt.legg_til_ansatt(p3);
+    /// Oppretter ansatte
+    std::vector<Person*> personer {
+                new Person("Jan Johansen", 171178),
+                new Person("Peder Aas", 40389),
+                new Person("Kari Holm", 110145),
+                new Person("Hans Tastad", 121053),
+                new Person("Marte Kirkerud", 230490),
+                new Person("John Doe", 140759),
+                new Person("Jane Doe", 241282),
+                new Person("Bob Richards", 110557),
+                new Person("Rick Ronald", 20671),
+                new Person("Donald Dump", 190862),
+                new Person("Henry Brown", 221043)
+    };
 
-    AnsattData a1(ansatt);
-    a1.set_banknummer(123978);
-    a1.set_lonn(123978);
-    a1.set_super_mentor(true);
-    a1.set_paarorende(&p1);
+    /// Person p1 er en ansatt
+    Ansatt a1 = std::move(p1);
+    a1.tilknytt_mentor(*personer[1]);
+
+    /// Prøver å legge til for mange ansatte
+    a1.legg_til_ansatt(&p2);
+    bool for_mange = false;
+    for(int i = 0; i < 12 && !for_mange; i++)
+        if(!a1.legg_til_ansatt(personer[i]))
+                for_mange = true;
 
     std::cout << a1.to_string() << std::endl;
+    std::cout << a1.list_ansatte() << std::endl;
+
+    /// Tester AnsattData-klassen
+    AnsattData ad1 = std::move(a1);
+    ad1.set_banknummer(11324762);
+    ad1.set_lonn(30000);
+    ad1.set_super_mentor(true);
+    ad1.set_stillingstype('d');
+    ad1.set_paarorende(personer[5]);
+    std::cout << ad1.to_string() << std::endl;
 
     /* Testing av oppgave 5:
-     * 	vis at person::tilknytt virker
-     * 	vis at ansatt::mentor virker
-     * 	vis at ansatt kan ha ansatte
      * 	test (og fiks) ansatte testing av 4-nivå osv
-     * 	vis at en ansattdata kan ha pårørende
      */
 
     return 0;

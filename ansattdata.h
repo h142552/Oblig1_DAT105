@@ -9,15 +9,16 @@ private:
     std::vector<Person*> paarorende;
     int banknummer;
     unsigned int lonn;
-    char stillingstype; // super_mentor/ikke?
+    char stillingstype;
 public:
-    AnsattData(Ansatt&);
     AnsattData(std::string, unsigned int);
+    AnsattData(Ansatt&&);
     void set_paarorende(Person*);
     void set_banknummer(int);
     void set_lonn(unsigned int);
     void set_stillingstype(char);
 
+    // Gir oss en oversikt over objektet
     std::string to_string();
 };
 
