@@ -9,11 +9,11 @@ namespace oppgave2 {
 class util_heltall
 {
 private:
-    unsigned int heltall;
+    unsigned long long heltall;
 public:
     util_heltall();
-    void set_heltall(unsigned int heltall);
-    unsigned int get_heltall();
+    void set_heltall(unsigned long long heltall);
+    unsigned long long get_heltall();
 
     // DEL 1:
     int bit_at(unsigned int k); // a)

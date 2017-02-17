@@ -2,6 +2,8 @@
 
 int heltall_bilde::size = sizeof(unsigned long long) * 8;
 
+std::vector<unsigned long long> heltall_bilde::get_heltall_vektor() { return this->heltall_vektor; }
+
 heltall_bilde::heltall_bilde() {
     this->heltall_vektor.reserve(this->size);
     this->init();

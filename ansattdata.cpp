@@ -7,13 +7,16 @@ AnsattData::AnsattData(Ansatt&& a)
     : Ansatt(std::move(a)) { }
 
 std::string AnsattData::to_string() {
+    std::string paarorende_string = "";
+    for(auto a : paarorende)
+        paarorende_string += ("Pårørende:\t" + a->get_navn() + "\n");
+
     return (
         Ansatt::to_string() +
         "Lønn:\t\t" + std::to_string(this->lonn) + "\n" +
         "Banknummer:\t" + std::to_string(this->banknummer) + "\n" +
         "Stillingstype:\t" + this->stillingstype + "\n" +
-        "Pårørende:\t" + ((paarorende.size() > 0)
-            ? this->paarorende[0]->get_navn() : "NULL") + "\n"
+        paarorende_string
     );
 }
 

@@ -50,14 +50,3 @@ std::string Ansatt::list_ansatte() {
     }
     return ansatte_string;
 }
-
-// Kan ha en metode leggTilAnsatt, som sjekker kriteriene for ansatte
-// må kanskje ha en tilknyttet mentor i Ansatt
-/*
- * en ansatt er tilknyttet en eller ingen mentor
- * en ansatt kan være mentor til opptil 10 ansatte (og ikke seg selv)
- * kan være 4 nivåer ansatt-mentor
- * en super-mentor har ingen mentor (bruke bool supermentor i Ansatt?)
- *
- *
- */

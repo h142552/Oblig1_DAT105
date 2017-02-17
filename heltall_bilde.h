@@ -24,6 +24,8 @@ public:
     void les_bilde(std::string, fil_format);
     void lag_sirkler(int, int);
 
+    std::vector<unsigned long long> get_heltall_vektor();
+
 };
 
 #endif // HELTALL_BILDE_H

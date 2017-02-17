@@ -1,13 +1,13 @@
 #include "util_heltall.h"
 
 util_heltall::util_heltall() {}
-void util_heltall::set_heltall(unsigned int heltall) { this->heltall = heltall; }
-unsigned int util_heltall::get_heltall() { return this->heltall; }
+void util_heltall::set_heltall(unsigned long long heltall) { this->heltall = heltall; }
+unsigned long long util_heltall::get_heltall() { return this->heltall; }
 
 
 // a), Returnerer bitverdien i posisjon k
 int util_heltall::bit_at(unsigned int k) {
-    if((unsigned int) 1<<k > this->heltall) throw oppgave2::out_of_range_exception();
+    if((unsigned long long) 1<<k > this->heltall) return 0;//throw oppgave2::out_of_range_exception();
     return ((this->heltall & 1<<k) > 0) ? 1 : 0; // return 1 if pos k == 1, return 0 if pos k == 0
 }
 
@@ -82,7 +82,7 @@ int util_heltall::bit1_less_than(unsigned int k) { // k = 3, 0100 1110 0101 -> 2
 int util_heltall::bit1_greater_than(unsigned int k) { // k = 3, 0100 1110 0101 -> 4
     unsigned long long shift = 1;
     int count = 0;
-    while(((unsigned long long)1<<k) <= this->heltall) {
+    while(((unsigned long long)1<<k) < this->heltall) {
         if((this->heltall & ((unsigned long long)1<<k)) > 0)
             count++;
         k++;

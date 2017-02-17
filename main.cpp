@@ -1,6 +1,7 @@
 #include <iostream>
 #include "util_heltall.h"
 #include "heltall_bilde.h"
+#include "matrise_skriver.h"
 #include "person.h"
 #include "ansatt.h"
 #include "ansattdata.h"
@@ -91,53 +92,7 @@ void test_metoder() {
     std::cout << heltall.bit1_greater_than(3) << std::endl;
 }
 
-int main()
-{
-    // Oppgave 1 eksempel:
-    std::cout << "22! = " << oppgave1::fakultet(22) << std::endl;
-
-    // Oppgave 2, Del 1 og 2:
-    test_metoder();
-
-    // Oppgave 2, Del 3:
-    heltall_bilde bmp { heltall_bilde() };
-    bmp.lag_bilde('/', 64);
-    bmp.lag_bilde('\\', 0);
-    bmp.lag_bilde('|', 0);
-    bmp.lag_bilde('|', 63);
-    bmp.lag_bilde('-', 0);
-    bmp.lag_bilde('-', 63);
-    bmp.skriv_ut();
-
-    // Oppgave 2, Del 4 a):
-    heltall_bilde b1 { heltall_bilde() };
-    std::cout << (bmp == b1) << std::endl;
-    heltall_bilde b2 { heltall_bilde() };
-    std::cout << (b1 == b2) << std::endl;
-
-    // Oppgave 2, Del 4 b):
-    b1.lag_bilde('/', 64);
-    b2.lag_bilde('\\', 0);
-    b1 = b1 + b2;
-    b1.skriv_ut();
-
-    // Oppgave 2, Del 4 c):
-    b1 = ~b1;
-    b1.skriv_ut();
-
-    // Oppgave 3: // TODO: test slik som står i oppgaveteksten.
-    b2.lagre_bilde("test.txt", heltall_bilde::fil_format::Tall);
-    b1.les_bilde("test.txt", heltall_bilde::fil_format::Tall);
-    b1.skriv_ut();
-
-    // Oppgave 4, Del 1:
-    heltall_bilde b3 { heltall_bilde() };
-    b3.lag_sirkler(32, 15);
-    b3.lag_sirkler(32, 23);
-    b3.lag_sirkler(32, 31);
-    b3.skriv_ut();
-
-    // Oppgave 5
+void test_oppgave5() {
     /// Viser tilknyttning
     Person p1("Ola Nordmann", 170565);
     Person p2("Kari Nordmann", 230971);
@@ -180,12 +135,70 @@ int main()
     ad1.set_lonn(30000);
     ad1.set_super_mentor(true);
     ad1.set_stillingstype('d');
-    ad1.set_paarorende(personer[5]);
+    //ad1.set_paarorende(personer[5]);
+    //ad1.set_paarorende(personer[6]);
     std::cout << ad1.to_string() << std::endl;
 
     /* Testing av oppgave 5:
      * 	test (og fiks) ansatte testing av 4-nivå osv
      */
+
+}
+
+int main()
+{
+    // Oppgave 1 eksempel:
+    std::cout << "22! = " << oppgave1::fakultet(22) << std::endl;
+
+    // Oppgave 2, Del 1 og 2:
+    test_metoder();
+
+    // Oppgave 2, Del 3:
+    heltall_bilde bmp { heltall_bilde() };
+    bmp.lag_bilde('/', 64);
+    bmp.lag_bilde('\\', 0);
+    bmp.lag_bilde('|', 0);
+    bmp.lag_bilde('|', 63);
+    bmp.lag_bilde('-', 0);
+    bmp.lag_bilde('-', 63);
+    bmp.skriv_ut();
+
+    // Oppgave 2, Del 4 a):
+    heltall_bilde b1 { heltall_bilde() };
+    std::cout << (bmp == b1) << std::endl;
+    heltall_bilde b2 { heltall_bilde() };
+    std::cout << (b1 == b2) << std::endl;
+
+    // Oppgave 2, Del 4 b):
+    b1.lag_bilde('/', 64);
+    b2.lag_bilde('\\', 0);
+    //b1 = b1 + b2;
+    b1.skriv_ut();
+
+    // Oppgave 2, Del 4 c):
+    //b1 = ~b1;
+    b1.skriv_ut();
+
+    // Oppgave 3: // TODO: test slik som står i oppgaveteksten.
+    b1.lagre_bilde("test.txt", heltall_bilde::fil_format::Tall);
+    //b1.les_bilde("test.txt", heltall_bilde::fil_format::Tall);
+    b1.skriv_ut();
+
+    // Oppgave 4, Del 1:
+    heltall_bilde b3 { heltall_bilde() };
+    b3.lag_sirkler(32, 15);
+    b3.lag_sirkler(32, 23);
+    b3.lag_sirkler(32, 31);
+    b3.skriv_ut();
+
+    // Oppgave 4, Del 2:
+    /// Matriseskriver osv:
+    matrise_skriver ms(b1.get_heltall_vektor());
+    std::cout << "Kommandostreng: " << ms.get_kommando_streng() << std::endl;
+
+
+    // Oppgave 5
+    //test_oppgave5();
 
     return 0;
 }
