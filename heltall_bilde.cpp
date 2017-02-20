@@ -4,11 +4,13 @@ int heltall_bilde::size = sizeof(unsigned long long) * 8;
 
 std::vector<unsigned long long> heltall_bilde::get_heltall_vektor() { return this->heltall_vektor; }
 
+// Reserverer nok plasser, og initialiserer alle tall i vektor
 heltall_bilde::heltall_bilde() {
     this->heltall_vektor.reserve(this->size);
     this->init();
 }
 
+// Setter alle tallene i vektor til 0
 void heltall_bilde::init() {
     if(this->heltall_vektor.size() == 0)
         for(int i = 0; i < heltall_bilde::size; i++)
@@ -18,6 +20,7 @@ void heltall_bilde::init() {
             this->heltall_vektor[i] = 0;
 }
 
+// Skriver ut alle tallene i vektoren, W for 1 og _ for 0
 void heltall_bilde::skriv_ut() {
     for(unsigned int i = 0; i < this->heltall_vektor.size(); i++) {
         for(int j = 0; j < this->size; j++)
@@ -28,6 +31,7 @@ void heltall_bilde::skriv_ut() {
     }
 }
 
+// Sjekker om alle elementene i vektoren er like
 bool heltall_bilde::operator==(const heltall_bilde& rhs) {
     if(this->heltall_vektor.size() != rhs.heltall_vektor.size())
         return false;
@@ -41,33 +45,39 @@ bool heltall_bilde::operator==(const heltall_bilde& rhs) {
     return true;
 }
 
+// Legger sammen to bilder
 heltall_bilde& heltall_bilde::operator+(const heltall_bilde& rhs) {
     if(this->heltall_vektor.size() != rhs.heltall_vektor.size())
         throw heltall_bilde::size_mismatch_exception();
 
-    for(unsigned int i = 0; i < this->heltall_vektor.size(); i++) {
+    for(unsigned int i = 0; i < this->heltall_vektor.size(); i++)
         this->heltall_vektor[i] |= rhs.heltall_vektor[i];
-    }
 
     return *this;
 }
 
+// Bytter 0 til 1 og 1 til 0 for alle bits for tallene i vektoren
 heltall_bilde& heltall_bilde::operator~() {
-    for(unsigned int i = 0; i < this->heltall_vektor.size(); i++) {
+    for(unsigned int i = 0; i < this->heltall_vektor.size(); i++)
         this->heltall_vektor[i] = ~this->heltall_vektor[i];
-    }
 
     return *this;
 }
 
-void heltall_bilde::lag_bilde(char B, int k = 0) { // bruke switch?
-    if(B == '0') {
+// Genererer bilde basert på char-parameter
+void heltall_bilde::lag_bilde(char B, int k = 0) {
+    switch (B) {
+    case '0': {
         this->init();
+
+        break;
     }
-    else if(B == '1') {
+    case '1': {
         this->heltall_vektor[0] = 1;
+
+        break;
     }
-    else if(B == '\\') {
+    case '\\': {
         int i = 0;
         while(k < this->size) {
             // setter k-te bit i element nr. i til 1
@@ -76,8 +86,10 @@ void heltall_bilde::lag_bilde(char B, int k = 0) { // bruke switch?
             ++i;
             ++k;
         }
+
+        break;
     }
-    else if(B == '/') {
+    case '/': {
         int i = 0;
         while(k > 0) {
             this->heltall_vektor[i] |= (unsigned long long)1<<(k-1);
@@ -85,19 +97,30 @@ void heltall_bilde::lag_bilde(char B, int k = 0) { // bruke switch?
             ++i;
             --k;
         }
+
+        break;
     }
-    else if(B == '|') {
+    case '|': {
         for(unsigned int i = 0; i < this->heltall_vektor.size(); i++)
             this->heltall_vektor[i] |= (unsigned long long)1<<k;
+
+        break;
     }
-    else if(B == '-') {
+    case '-': {
         for(unsigned int i = 0; i < this->heltall_vektor.size(); i++)
             this->heltall_vektor[k] |= (unsigned long long)1<<i;
+
+        break;
     }
-    else
-        std::cout << "Feil parameter." << std::endl;
+    default: {
+        std::cout << "Ukjent parameter" << std::endl;
+
+        break;
+    }
+    } // switch
 }
 
+// Lagrer bilde til fil
 void heltall_bilde::lagre_bilde(std::string filnavn, fil_format ff) {
     std::ofstream utfil;
     utfil.open(filnavn);
@@ -136,6 +159,7 @@ void heltall_bilde::lagre_bilde(std::string filnavn, fil_format ff) {
     utfil.close();
 }
 
+// Leser bilde fra fil
 void heltall_bilde::les_bilde(std::string filnavn, fil_format ff) {
     this->init(); // Lettest å nullstille bildet før lesing
     std::ifstream innfil;

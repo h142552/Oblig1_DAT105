@@ -6,15 +6,23 @@ Ansatt::Ansatt(std::string navn, unsigned int pnr)
 Ansatt::Ansatt(Person &&p)
     : Person(std::move(p)) { }
 
-bool Ansatt::legg_til_ansatt(Person *ansatt) {
+bool Ansatt::legg_til_ansatt(Ansatt *ansatt) {
     if(ansatte.size() <	10) {
         /// bruke en nivå-teller?
         /// eller if(this.mentor.mentor.mentor.mentor != nullptr)
         /// 	må såfall legge til ansatte, ikke personer,
         /// 	personer har ikke mentor
         // sjekk 4-nivå opp + legg til
+        //if(ansatt->har_mentor()) { // rett count?
+            //if(ansatt->get_mentor()->har_mentor())
+                //if(ansatt->get_mentor()->get_mentor()->har_mentor())
+                    //if(ansatt->get_mentor()->get_mentor()->get_mentor()->har_mentor())
+
+        ansatt->tilknytt_mentor(*this);
         ansatte.push_back(ansatt);
         return true;
+        //}
+        //else return false;
     }
     else return false;
 }
@@ -24,9 +32,11 @@ bool Ansatt::har_mentor() { // Sjekker om en ansatt har en mentor
     else return true;
 }
 
-void Ansatt::tilknytt_mentor(Person& mentor) {
-    if(!super_mentor)
-        this->mentor = std::make_unique<Person>(std::move(mentor));
+void Ansatt::tilknytt_mentor(Ansatt& mentor) {
+    if(!super_mentor) {
+        this->mentor = std::make_unique<Ansatt>(std::move(mentor));
+        this->mentor_nivå++;//helevveretettetet
+    }
 }
 
 void Ansatt::set_super_mentor(bool super_mentor) {

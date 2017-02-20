@@ -1,13 +1,13 @@
 #include "util_heltall.h"
 
-util_heltall::util_heltall() {}
+util_heltall::util_heltall() { }
 void util_heltall::set_heltall(unsigned long long heltall) { this->heltall = heltall; }
 unsigned long long util_heltall::get_heltall() { return this->heltall; }
 
 
 // a), Returnerer bitverdien i posisjon k
 int util_heltall::bit_at(unsigned int k) {
-    if((unsigned long long) 1<<k > this->heltall) return 0;//throw oppgave2::out_of_range_exception();
+    if((unsigned long long) 1<<k > this->heltall) throw oppgave2::out_of_range_exception();
     return ((this->heltall & 1<<k) > 0) ? 1 : 0; // return 1 if pos k == 1, return 0 if pos k == 0
 }
 
