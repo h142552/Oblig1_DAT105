@@ -153,16 +153,16 @@ void test_bilder() {
     // Oppgave 2, Del 4 b):
     b1.lag_bilde('/', 64);
     b2.lag_bilde('\\', 0);
-    //b1 = b1 + b2;
+    b1 = b1 + b2;
     b1.skriv_ut();
 
     // Oppgave 2, Del 4 c):
-    //b1 = ~b1;
+    b1 = ~b1;
     b1.skriv_ut();
 
-    // Oppgave 3: // TODO: test slik som står i oppgaveteksten.
-    b1.lagre_bilde("test.txt", heltall_bilde::fil_format::Tall);
-    //b1.les_bilde("test.txt", heltall_bilde::fil_format::Tall);
+    // Oppgave 3:
+    b2.lagre_bilde("test.txt", heltall_bilde::fil_format::Tall);
+    b1.les_bilde("test.txt", heltall_bilde::fil_format::Tall);
     b1.skriv_ut();
 
     // Oppgave 4, Del 1:
