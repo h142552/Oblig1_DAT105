@@ -10,7 +10,7 @@ private:
     bool super_mentor = false; // er den ansatte en super-mentor?
     std::unique_ptr<Ansatt> mentor = nullptr; // Bruker Ansatt-objekt i stedet for Person-objekt
     std::vector<Ansatt*> ansatte;
-    int mentor_nivå = 0; // Teller mentor nivå
+    //int mentor_nivå = 0;// Teller mentor nivå
 public:
     Ansatt(std::string, unsigned int);
     Ansatt(Person&&);

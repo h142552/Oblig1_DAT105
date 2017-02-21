@@ -12,36 +12,6 @@ matrise_skriver::matrise_skriver(std::vector<unsigned long long> heltall_vektor)
 std::string matrise_skriver::get_kommando_streng() { return this->utskrift_kommando_streng; }
 
 void matrise_skriver::lag_kommando_streng(std::vector<unsigned long long> heltall_vektor) {
-    /*
-     * leser heltall_vektor.
-     * dersom heltall_vektor[i] == 0 -> 1V (beveg ark opp)
-     * dersom punkt under skrivehodet == 1 -> '.'
-     * 	ellers -> ' ' // (eller ingenting?)
-     *
-     * dersom feks 10 nuller på rad -> 10 (mv 10)
-     * 	har en egen var som teller moves
-     *
-     * dersom kommando er lik forrige -> ([kommando])2
-     * 		antall gjentakelser lagres i var
-     *
-     * når skrivehodet kommer til enden av linjen -> 1V
-     *
-     * skrivehodet starter oppe i høgre hjørne
-     * => implementere slik at første linjen skrives/genereres speilvendt
-     * 		osv. annenhver nedover
-     *
-     * ---------------------------------
-     * nullstiller utskrift_kommando_streng
-     * temp: streng som holder kommandoen inni løkken
-     * forrige: forrige kommando
-     * gjentatte: antall like kommandoer
-     *
-     * ----------------------------------
-     * ALG:
-     * 	gå igjennom alle tallene
-     * 	dersom tall = 0 -> bare sett temp V
-     *
-     */
     this->utskrift_kommando_streng = "";
     std::string forrige = "";
     std::string temp = ""; // temp-streng
@@ -61,26 +31,6 @@ void matrise_skriver::lag_kommando_streng(std::vector<unsigned long long> heltal
             temp += "V";
         }
         else {
-            /*
-             * '/' gir (.-1V1)64 +64 (synkende pow2), dvs at helt til høgre er 2^63
-             * må finne ut hvor mangen som er til høgre/venstre
-             * finne kortest vei?
-             * bruke private metoder
-             *
-             * ///
-             * while linje > 0
-             * 	finn_nærmeste/neste
-             * 	sett plassen lik 0 (oppdaterer heltall)
-             * 	skriv i temp-string
-             *
-             * ////////////////////////7
-             * tenk '/' bildet:
-             * 		xPos begynner på 63
-             * 		finner bit, += '.'
-             * 		beveger ned
-             * 		beveger -1
-             * 		repeat
-             */
             teller_linje = 0; // nullstiller før linjen starter
             temp_linje = "";
             char c;
@@ -112,8 +62,6 @@ void matrise_skriver::lag_kommando_streng(std::vector<unsigned long long> heltal
             // skriv linjeskift til slutt
             temp_linje += "V";
 
-            ///////////
-            //for(int j = 0; j < sizeof(unsigned long long); j++) { /* foreach bit*/ }
         } // else
         temp = temp_linje;
 
@@ -163,14 +111,6 @@ char matrise_skriver::finn_neste(util_heltall &heltall, int pos) { // returnerer
         else {
             return '<'; // beveg mot venstre (mot minst signifikant bit) ('<')
         }
-//        while(heltall.bit1_greater_than(pos) > 0) { //dobbelt
-//            if(heltall.bit_at(pos) > 0) {
-//                // sett denne bit-en til 0
-//            }
-//            pos--; // går videre mot høgre i tallet / venstre i bilde
-//            count++;
-//        }
-
     }
     else return '0'; // fant ingen, ikke beveg
 

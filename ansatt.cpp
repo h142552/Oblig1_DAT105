@@ -1,28 +1,19 @@
 #include "ansatt.h"
+#include <iostream>
 
 Ansatt::Ansatt(std::string navn, unsigned int pnr)
-    : Person(navn, pnr) { }
+    : Person(navn, pnr) { ansatte.reserve(10); }
 
 Ansatt::Ansatt(Person &&p)
-    : Person(std::move(p)) { }
+    : Person(std::move(p)) { ansatte.reserve(10); }
 
 bool Ansatt::legg_til_ansatt(Ansatt *ansatt) {
-    if(ansatte.size() <	10) {
-        /// bruke en nivå-teller?
-        /// eller if(this.mentor.mentor.mentor.mentor != nullptr)
-        /// 	må såfall legge til ansatte, ikke personer,
-        /// 	personer har ikke mentor
-        // sjekk 4-nivå opp + legg til
-        //if(ansatt->har_mentor()) { // rett count?
-            //if(ansatt->get_mentor()->har_mentor())
-                //if(ansatt->get_mentor()->get_mentor()->har_mentor())
-                    //if(ansatt->get_mentor()->get_mentor()->get_mentor()->har_mentor())
+    // OBS! sjekker ikke 4 nivå opp etter mentor
 
-        ansatt->tilknytt_mentor(*this);
+    if(ansatte.size() <	10) {
+        // Ville gjerne sette *this som mentor, men da flyttes denne klassen, og kan ikke brukes
         ansatte.push_back(ansatt);
         return true;
-        //}
-        //else return false;
     }
     else return false;
 }
@@ -33,14 +24,13 @@ bool Ansatt::har_mentor() { // Sjekker om en ansatt har en mentor
 }
 
 void Ansatt::tilknytt_mentor(Ansatt& mentor) {
-    if(!super_mentor) {
+    if(!super_mentor)
         this->mentor = std::make_unique<Ansatt>(std::move(mentor));
-        this->mentor_nivå++;//helevveretettetet
-    }
 }
 
 void Ansatt::set_super_mentor(bool super_mentor) {
     this->super_mentor = super_mentor;
+    this->mentor = nullptr;
 }
 
 std::string Ansatt::to_string() {
@@ -54,7 +44,7 @@ std::string Ansatt::to_string() {
 }
 
 std::string Ansatt::list_ansatte() {
-    std::string ansatte_string = "";
+    std::string ansatte_string = "Ansatte:\n";
     for(auto a : ansatte) {
         ansatte_string += a->to_string();
     }

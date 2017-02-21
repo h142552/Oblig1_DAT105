@@ -12,6 +12,9 @@ unsigned long long fakultet(unsigned long long int n);
 // Oppgave 2
 void test_oppgave2();
 
+// Oppgave 2 (Del 3 & 4), 3 og 4 (Del 1)
+void test_bilder();
+
 // Oppgave 5
 void test_oppgave5();
 
@@ -23,52 +26,25 @@ int main()
     // Oppgave 2, Del 1 og 2:
     test_oppgave2();
 
-    // Oppgave 2, Del 3:
-    heltall_bilde bmp { heltall_bilde() };
-    bmp.lag_bilde('/', 64);
-    bmp.lag_bilde('\\', 0);
-    bmp.lag_bilde('|', 0);
-    bmp.lag_bilde('|', 63);
-    bmp.lag_bilde('-', 0);
-    bmp.lag_bilde('-', 63);
-    bmp.skriv_ut();
-
-    // Oppgave 2, Del 4 a):
-    heltall_bilde b1 { heltall_bilde() };
-    std::cout << (bmp == b1) << std::endl;
-    heltall_bilde b2 { heltall_bilde() };
-    std::cout << (b1 == b2) << std::endl;
-
-    // Oppgave 2, Del 4 b):
-    b1.lag_bilde('/', 64);
-    b2.lag_bilde('\\', 0);
-    //b1 = b1 + b2;
-    b1.skriv_ut();
-
-    // Oppgave 2, Del 4 c):
-    //b1 = ~b1;
-    b1.skriv_ut();
-
-    // Oppgave 3: // TODO: test slik som står i oppgaveteksten.
-    b1.lagre_bilde("test.txt", heltall_bilde::fil_format::Tall);
-    //b1.les_bilde("test.txt", heltall_bilde::fil_format::Tall);
-    b1.skriv_ut();
-
-    // Oppgave 4, Del 1:
-    heltall_bilde b3 { heltall_bilde() };
-    b3.lag_sirkler(32, 15);
-    b3.lag_sirkler(32, 23);
-    b3.lag_sirkler(32, 31);
-    b3.skriv_ut();
+    // Oppgave 2, 3 & 4
+    test_bilder();
 
     // Oppgave 4, Del 2:
     /// Matriseskriver osv:
+    /* Matriseskriver:
+     * 	 brukte mye tid på denne oppgaven, men satt meg fast.
+     * 	 skulle gjerne ha gjort den ferdig, men med tanke på arbeidsmengden
+     * 	 i denne obligen måtte jeg gi opp. Slik klassen er nå så setter
+     * 	 den seg fast når den leter etter bits for å generere kommandostreng.
+     * 	 jeg prøvde å bruke klassene som ble lagt i util_heltall.
+     *
+     */
     //matrise_skriver ms(b1.get_heltall_vektor());
     //std::cout << "Kommandostreng: " << ms.get_kommando_streng() << std::endl;
 
 
     // Oppgave 5
-    //test_oppgave5();
+    test_oppgave5();
 
     return 0;
 }
@@ -156,6 +132,47 @@ void test_oppgave2() {
     std::cout << heltall.bit1_greater_than(3) << std::endl;
 }
 
+// Oppgave 2, 3 & 4
+void test_bilder() {
+    // Oppgave 2, Del 3:
+    heltall_bilde bmp { heltall_bilde() };
+    bmp.lag_bilde('/', 64);
+    bmp.lag_bilde('\\', 0);
+    bmp.lag_bilde('|', 0);
+    bmp.lag_bilde('|', 63);
+    bmp.lag_bilde('-', 0);
+    bmp.lag_bilde('-', 63);
+    bmp.skriv_ut();
+
+    // Oppgave 2, Del 4 a):
+    heltall_bilde b1 { heltall_bilde() };
+    std::cout << (bmp == b1) << std::endl;
+    heltall_bilde b2 { heltall_bilde() };
+    std::cout << (b1 == b2) << std::endl;
+
+    // Oppgave 2, Del 4 b):
+    b1.lag_bilde('/', 64);
+    b2.lag_bilde('\\', 0);
+    //b1 = b1 + b2;
+    b1.skriv_ut();
+
+    // Oppgave 2, Del 4 c):
+    //b1 = ~b1;
+    b1.skriv_ut();
+
+    // Oppgave 3: // TODO: test slik som står i oppgaveteksten.
+    b1.lagre_bilde("test.txt", heltall_bilde::fil_format::Tall);
+    //b1.les_bilde("test.txt", heltall_bilde::fil_format::Tall);
+    b1.skriv_ut();
+
+    // Oppgave 4, Del 1:
+    heltall_bilde b3 { heltall_bilde() };
+    b3.lag_sirkler(32, 15);
+    b3.lag_sirkler(32, 23);
+    b3.lag_sirkler(32, 31);
+    b3.skriv_ut();
+}
+
 // Oppgave 5
 void test_oppgave5() {
     /// Viser tilknyttning
@@ -181,15 +198,17 @@ void test_oppgave5() {
     };
 
     /// Person p1 er en ansatt
-    Ansatt a1 = std::move(p1);
+    Ansatt a1(std::move(p1));
+    a1.tilknytt_mentor(*ansatte[1]);
+    std::cout << a1.to_string() << std::endl;
+    a1.set_super_mentor(true); // dersom en ansatt settes til super_mentor, fjernes gamle mentorer
     a1.tilknytt_mentor(*ansatte[1]);
 
     /// Prøver å legge til for mange ansatte
-    //a1.legg_til_ansatt(ansatte[0]);
     bool for_mange = false;
     for(int i = 0; i < 12 && !for_mange; i++)
         if(!a1.legg_til_ansatt(ansatte[i]))
-                for_mange = true;
+              for_mange = true;
 
     std::cout << a1.to_string() << std::endl;
     std::cout << a1.list_ansatte() << std::endl;
@@ -198,14 +217,8 @@ void test_oppgave5() {
     AnsattData ad1 = std::move(a1);
     ad1.set_banknummer(11324762);
     ad1.set_lonn(30000);
-    ad1.set_super_mentor(true);
     ad1.set_stillingstype('d');
-    //ad1.set_paarorende(ansatte[5]);
-    //ad1.set_paarorende(ansatte[6]);
+    ad1.set_paarorende(new Person("Svein Nordmann", 311278));
+    ad1.set_paarorende(new Person("Marit Nordmann", 40592));
     std::cout << ad1.to_string() << std::endl;
-
-    /* Testing av oppgave 5:
-     * 	test (og fiks) ansatte testing av 4-nivå osv
-     */
-
 }
